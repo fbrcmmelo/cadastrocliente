@@ -27,12 +27,11 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
 
     @Override
     public List<ItemPedido> salvarTodos(Pedido pedido, List<ItemPedidoDTO> itens) {
-        List<ItemPedido> listaItens = new ArrayList<>();
-
         if (itens.isEmpty()){
             throw new ExceptionsRules("Lista Vazia !");
         }
 
+        List<ItemPedido> listaItens = new ArrayList<>();
         for (ItemPedidoDTO item: itens) {
             ItemPedido itemPedido = new ItemPedido();
             itemPedido.setQuantidade(item.getQuantidade());
@@ -46,6 +45,7 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
             instanceOfItemPedido.save(itemPedido);
             listaItens.add(itemPedido);
         }
+        instanceOfItemPedido.saveAll(listaItens);
         return listaItens;
     }
 
