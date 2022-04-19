@@ -17,6 +17,6 @@ public interface PedidoService {
 
     Optional<Pedido> findById(Integer id);
 
-    void updateStatus(Integer id, StatusPedido status) throws Exception;
+    void updateStatus(Pedido pedido, StatusPedido status);
 }
 

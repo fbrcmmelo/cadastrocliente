@@ -65,12 +65,9 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public void updateStatus(Integer id, StatusPedido status) throws Exception {
-        Optional<Pedido> pedido = findById(id);
-        if (!pedido.isPresent())  throw new Exception("Cliente Inválido !");
-
-        pedido.get().setStatus(status);
-        instanceOfPedidoRepository.save(pedido.get());
+    public void updateStatus(Pedido pedido, StatusPedido status) {
+        pedido.setStatus(status);
+        instanceOfPedidoRepository.save(pedido);
     }
 
     private List<ItemCompletoDTO> converterItemPedido(List<ItemPedido> itens) {

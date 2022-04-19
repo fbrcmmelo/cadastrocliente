@@ -41,12 +41,12 @@ public class PedidoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("{id}")
     public void updateStatusPedido (@PathVariable Integer id,
-                                    @RequestBody StatusPedidoDTO dto) throws Exception {
+                                    @RequestBody StatusPedidoDTO dto) {
         Optional<Pedido> pedido = instanceOfPedidoService.findById(id);
         if (!pedido.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         String status = dto.getStatus();
-        instanceOfPedidoService.updateStatus(id, StatusPedido.valueOf(status));
+        instanceOfPedidoService.updateStatus(pedido.get(), StatusPedido.valueOf(status));
     }
 }
