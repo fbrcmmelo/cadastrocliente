@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.vendas.br.enums.StatusPedido;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

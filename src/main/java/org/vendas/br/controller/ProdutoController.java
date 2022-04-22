@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.vendas.br.model.Produto;
 import org.vendas.br.repository.ProdutoRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,22 +24,15 @@ public class ProdutoController {
         }
     }
 
-    @GetMapping()
-    public List<Produto> findAll () {
-    List<Produto> listaProdutos = instanceOfProduto.findAll();
-    if (!listaProdutos.isEmpty()) { return listaProdutos;}
-    throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Produto save (@RequestBody Produto produto) {
+    public Produto save (@RequestBody @Valid Produto produto) {
         instanceOfProduto.save(produto);
         return produto;
     }
 
     @PutMapping("{id}")
-    public Produto update (@RequestBody Produto produtoParameter,
+    public Produto update (@RequestBody @Valid Produto produtoParameter,
                            @PathVariable("id") Integer idProduto) {
         Optional<Produto> produto = instanceOfProduto.findById(idProduto);
         if (produto.isPresent()) {
@@ -68,7 +62,7 @@ public class ProdutoController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/find")
+    @GetMapping()
     public List<Produto> findProdutoWithFilter (Produto produtoParameter) {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);

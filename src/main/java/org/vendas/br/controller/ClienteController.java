@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.vendas.br.model.Cliente;
 import org.vendas.br.repository.ClienteRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,26 +37,16 @@ public class ClienteController {
         }
     }
 
-    @GetMapping()
-    public List<Cliente> findAllClientes () {
-        List<Cliente> listaClientes = instanceOfCliente.findAll();
-        if (!listaClientes.isEmpty()) {
-            return listaClientes;
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
-
-
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente saveCliente (@RequestBody Cliente clienteParameter) {
+    public Cliente saveCliente (@RequestBody @Valid Cliente clienteParameter) {
         Cliente cliente = instanceOfCliente.save(clienteParameter);
         return cliente;
     }
 
     @PutMapping("{id}")
     public Cliente updateCliente (@PathVariable("id") Integer idCliente,
-                                         @RequestBody Cliente clienteParameter) {
+                                  @RequestBody @Valid Cliente clienteParameter) {
         Optional<Cliente> cliente = instanceOfCliente.findById(idCliente);
         if (cliente.isPresent()) {
             clienteParameter.setId(cliente.get().getId());
@@ -67,7 +58,7 @@ public class ClienteController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
-    public void deleteCliente (@PathVariable(name = "id") Integer idCliente) {
+    public void deleteCliente (@PathVariable Integer idCliente) {
         Optional<Cliente> cliente = instanceOfCliente.findById(idCliente);
         if (!cliente.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -76,7 +67,7 @@ public class ClienteController {
     }
 
     @GetMapping("{id}")
-    public Cliente getClienteById(@PathVariable("id") Integer idCliente) {
+    public Cliente getClienteById(@PathVariable Integer idCliente) {
         Optional<Cliente> cliente = instanceOfCliente.findById(idCliente);
         if (cliente.isPresent()) {
             return cliente.get();
@@ -84,7 +75,7 @@ public class ClienteController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/find")
+    @GetMapping()
     public List<Cliente> findCliente (Cliente filtroCliente) {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreCase()

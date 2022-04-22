@@ -13,6 +13,7 @@ import org.vendas.br.enums.StatusPedido;
 import org.vendas.br.model.Pedido;
 import org.vendas.br.service.PedidoService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class PedidoController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Integer save (@RequestBody PedidoDTO dto) {
+    public Integer save (@RequestBody @Valid  PedidoDTO dto) {
         Pedido pedido = instanceOfPedidoService.salvar(dto);
         return pedido.getId();
     }
@@ -41,7 +42,7 @@ public class PedidoController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("{id}")
     public void updateStatusPedido (@PathVariable Integer id,
-                                    @RequestBody StatusPedidoDTO dto) {
+                                    @RequestBody @Valid StatusPedidoDTO dto) {
         Optional<Pedido> pedido = instanceOfPedidoService.findById(id);
         if (!pedido.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

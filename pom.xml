@@ -26,17 +26,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--  Starter dependencias para persistencia com JPA -->
+        <!-- Starter dependencias para persistencia com JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!--  Starter segurança da aplicacao -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--            <version>2.2.4.RELEASE</version>-->
-<!--        </dependency>-->
+        <!-- Starter segurança da aplicacao -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.2.4.RELEASE</version>
+        </dependency>
         <!--  Starter injecao de testes para confidencialiade da aplicacao-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,19 +47,25 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-<!--        Starter para adicionar Anotations do lombok-->
+        <!--  Starter para adicionar Anotations do lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
         </dependency>
-<!--        Starter para tornar o lenvatamento da aplicacao automatico-->
+        <!--  Starter para tornar o lenvatamento da aplicacao automatico-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
+        <!--  Starter para trabalhar com validações avançadas no back-end-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
     </dependencies>
-<!--    Em build precisamos dos plugins necessarios para o build do maven-->
+
+    <!-- Em build precisamos dos plugins necessarios para o build do maven-->
     <build>
         <plugins>
             <plugin>
