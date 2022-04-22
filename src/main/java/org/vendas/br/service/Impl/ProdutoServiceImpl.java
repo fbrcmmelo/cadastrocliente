@@ -1,5 +1,6 @@
 package org.vendas.br.service.Impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.vendas.br.model.Produto;
 import org.vendas.br.repository.ProdutoRepository;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class ProdutoServiceImpl implements ProdutoService {
 
+    @Autowired
     ProdutoRepository instanceOfProduto;
 
     @Override
