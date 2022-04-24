@@ -1,10 +1,9 @@
-package org.vendas.br.model;
+package org.vendas.br.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -12,17 +11,11 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "produto")
-public class Produto {
+public class ProdutoDTO {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @Column(length = 100)
+    @NotEmpty(message = "{campo.descricao.obrigatorio}")
     private String descricao;
 
-    @Column(name = "preco_unitario")
+    @NotNull(message = "{campo.preco.obrigatorio}")
     private BigDecimal precoUnitario;
-
 }

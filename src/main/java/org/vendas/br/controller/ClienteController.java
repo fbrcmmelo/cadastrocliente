@@ -34,34 +34,38 @@ public class ClienteController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente salvar(@RequestBody @Valid ClienteDTO dto) {
-        Cliente cliente = instanceOfClienteService.salvar(dto);
+    public Cliente save (@RequestBody @Valid ClienteDTO dto) {
+        Cliente cliente = instanceOfClienteService.saveCliente(dto);
         return cliente;
     }
 
     @PutMapping("{id}")
-    public Cliente atualizar(@PathVariable("id") Integer id,
+    public Cliente update (@PathVariable("id") Integer id,
                              @RequestBody @Valid ClienteDTO dto) {
-        Cliente cliente = instanceOfClienteService.atualizar(id, dto);
-        if (cliente != null) {
-            return cliente;
+        Optional<Cliente> cliente = instanceOfClienteService.findClienteById(id);
+        if (!cliente.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return instanceOfClienteService.updateCliente(cliente.get(), dto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
-    public void remover(@PathVariable Integer id) {
-        instanceOfClienteService.remover(id);
+    public void delete (@PathVariable Integer id) {
+        Optional<Cliente> cliente = instanceOfClienteService.findClienteById(id);
+        if (!cliente.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        instanceOfClienteService.removeCliente(cliente.get());
     }
 
     @GetMapping("{id}")
-    public Cliente buscarPorId(@PathVariable Integer id) {
-        Optional<Cliente> cliente = instanceOfClienteService.buscarPorId(id);
-        if (cliente.isPresent()) {
-            return cliente.get();
+    public Cliente findById (@PathVariable Integer id) {
+        Optional<Cliente> cliente = instanceOfClienteService.findClienteById(id);
+        if (!cliente.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return cliente.get();
     }
 
     @GetMapping()
@@ -71,7 +75,7 @@ public class ClienteController {
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
         Example example = Example.of(filtroCliente, matcher);
-        List<Cliente> listaClientes = instanceOfClienteService.buscarTodosComFiltro(example);
+        List<Cliente> listaClientes = instanceOfClienteService.findAllClienteWithFilter(example);
         return listaClientes;
     }
 }

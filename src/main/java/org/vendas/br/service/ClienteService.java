@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ClienteService {
-    Cliente salvar(ClienteDTO dto);
+    Cliente saveCliente (ClienteDTO dto);
 
-    Cliente atualizar(Integer id, ClienteDTO dto);
+    Cliente updateCliente (Cliente cliente, ClienteDTO dto);
 
-    void remover(Integer id);
+    void removeCliente (Cliente cliente);
 
-    List<Cliente> buscarTodosComFiltro(Example example);
+    List<Cliente> findAllClienteWithFilter (Example example);
 
-    Optional<Cliente> buscarPorId(Integer id);
+    Optional<Cliente> findClienteById (Integer id);
 }
