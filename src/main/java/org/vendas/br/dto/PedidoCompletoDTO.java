@@ -3,7 +3,6 @@ package org.vendas.br.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.vendas.br.dto.ItemCompletoDTO.ItemCompletoDTO;
 
 import java.math.BigDecimal;
 import java.util.List;

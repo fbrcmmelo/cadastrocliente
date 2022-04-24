@@ -5,6 +5,6 @@ import org.vendas.br.model.Usuario;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<Usuario, Integer> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByLogin(String login);
 }

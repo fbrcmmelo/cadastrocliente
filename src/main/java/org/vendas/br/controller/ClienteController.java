@@ -1,13 +1,14 @@
 package org.vendas.br.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.vendas.br.dto.ClienteDTO;
 import org.vendas.br.model.Cliente;
-import org.vendas.br.repository.ClienteRepository;
+import org.vendas.br.service.Impl.ClienteServiceImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,51 +25,39 @@ import java.util.Optional;
             )
             public String metodo () { return "metodo"}
 */
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
 
-    private ClienteRepository instanceOfCliente;
-
-    public ClienteController(ClienteRepository instanceOfCliente) {
-        if (this.instanceOfCliente == null) {
-            this.instanceOfCliente = instanceOfCliente;
-        }
-    }
+    private final ClienteServiceImpl instanceOfClienteService;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente saveCliente (@RequestBody @Valid Cliente clienteParameter) {
-        Cliente cliente = instanceOfCliente.save(clienteParameter);
+    public Cliente salvar(@RequestBody @Valid ClienteDTO dto) {
+        Cliente cliente = instanceOfClienteService.salvar(dto);
         return cliente;
     }
 
     @PutMapping("{id}")
-    public Cliente updateCliente (@PathVariable("id") Integer idCliente,
-                                  @RequestBody @Valid Cliente clienteParameter) {
-        Optional<Cliente> cliente = instanceOfCliente.findById(idCliente);
-        if (cliente.isPresent()) {
-            clienteParameter.setId(cliente.get().getId());
-            instanceOfCliente.save(clienteParameter);
-            return clienteParameter;
+    public Cliente atualizar(@PathVariable("id") Integer id,
+                             @RequestBody @Valid ClienteDTO dto) {
+        Cliente cliente = instanceOfClienteService.atualizar(id, dto);
+        if (cliente != null) {
+            return cliente;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
-    public void deleteCliente (@PathVariable Integer idCliente) {
-        Optional<Cliente> cliente = instanceOfCliente.findById(idCliente);
-        if (!cliente.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        instanceOfCliente.delete(cliente.get());
+    public void remover(@PathVariable Integer id) {
+        instanceOfClienteService.remover(id);
     }
 
     @GetMapping("{id}")
-    public Cliente getClienteById(@PathVariable Integer idCliente) {
-        Optional<Cliente> cliente = instanceOfCliente.findById(idCliente);
+    public Cliente buscarPorId(@PathVariable Integer id) {
+        Optional<Cliente> cliente = instanceOfClienteService.buscarPorId(id);
         if (cliente.isPresent()) {
             return cliente.get();
         }
@@ -76,13 +65,13 @@ public class ClienteController {
     }
 
     @GetMapping()
-    public List<Cliente> findCliente (Cliente filtroCliente) {
+    public List<Cliente> buscarTodos(Cliente filtroCliente) {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
         Example example = Example.of(filtroCliente, matcher);
-        List<Cliente> listaClientes = instanceOfCliente.findAll(example);
+        List<Cliente> listaClientes = instanceOfClienteService.buscarTodosComFiltro(example);
         return listaClientes;
     }
 }

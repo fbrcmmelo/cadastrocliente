@@ -20,12 +20,9 @@ public class Cliente {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotEmpty(message = "{campo.nome.obrigatorio}")
     @Column(length = 100)
     private String nome;
 
-    @NotEmpty(message = "{campo.cpf.obrigatorio}")
-    @CPF(message = "{campo.cpf.invalido}")
     @Column(length = 11, unique = true)
     private String cpf;
 

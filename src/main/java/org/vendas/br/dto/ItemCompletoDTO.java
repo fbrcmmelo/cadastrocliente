@@ -1,4 +1,4 @@
-package org.vendas.br.dto.ItemCompletoDTO;
+package org.vendas.br.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

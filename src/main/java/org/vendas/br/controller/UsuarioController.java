@@ -1,12 +1,11 @@
 package org.vendas.br.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.vendas.br.dto.UsuarioDTO;
 import org.vendas.br.model.Usuario;
-import org.vendas.br.service.UsuarioService;
+import org.vendas.br.service.Impl.UserDetailServiceImpl;
 
 import javax.validation.Valid;
 
@@ -15,9 +14,11 @@ import javax.validation.Valid;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService instanceOfUsuarioService;
+    private UserDetailServiceImpl instanceOfUsuarioService;
 
-    public Usuario salvarUsuario (@RequestBody @Valid Usuario usuario) {
-        return instanceOfUsuarioService.saveAll(usuario);
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Usuario salvarUsuario (@RequestBody @Valid UsuarioDTO dto) {
+        return instanceOfUsuarioService.salvar(dto);
     }
 }

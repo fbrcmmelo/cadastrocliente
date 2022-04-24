@@ -2,7 +2,7 @@ package org.vendas.br.service.Impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.vendas.br.dto.ItemCompletoDTO.ItemCompletoDTO;
+import org.vendas.br.dto.ItemCompletoDTO;
 import org.vendas.br.dto.PedidoCompletoDTO;
 import org.vendas.br.dto.PedidoDTO;
 import org.vendas.br.enums.StatusPedido;
