@@ -7,8 +7,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.vendas.br.security.jwt.JwtAuthFilter;
+import org.vendas.br.security.jwt.JwtService;
 import org.vendas.br.service.Impl.UserDetailServiceImpl;
 
 import java.util.Random;
@@ -19,11 +24,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailServiceImpl userService;
+    @Autowired
+    JwtService jwtService;
     //Aqui nos usamos um metodo do tipo PasswordEnconder para gerar nossas formas de criptografia de senhas
     @Bean
     public PasswordEncoder passwordEncoder () {
         //BcryptPasswordEncoder é um encriptador de senhas gerando um código hash diferente vezes que usado para as senhas.
         return new BCryptPasswordEncoder();
+    }
+
+    //Aqui sera nosso interceptador de request e aplicar nosso filtro cada request.
+    @Bean
+    public OncePerRequestFilter jwtFilter() {
+        return new JwtAuthFilter(jwtService, userService);
     }
 
     //Aqui nos extendemos de WebSecurityConfigurerAdapter o metodo responsavel para configurar a autenticação de usuarios
@@ -46,11 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/pedidos/**")
                         .hasAnyRole("USER", "ADMIN")
                     .antMatchers("/produtos/**")
-                        .hasRole("USER")
+                        .hasRole("ADMIN")
                     .antMatchers(HttpMethod.POST, "/usuarios/**")
                         .permitAll()
                 .anyRequest().authenticated()
                 .and()
-                    .httpBasic();
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

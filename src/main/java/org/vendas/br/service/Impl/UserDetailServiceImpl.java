@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.vendas.br.dto.UsuarioDTO;
+import org.vendas.br.exceptions.SenhaInvalidException;
 import org.vendas.br.model.Usuario;
 import org.vendas.br.repository.UsuarioRepository;
 
@@ -47,5 +48,15 @@ public class UserDetailServiceImpl implements UserDetailsService {
                 .password(usuario.get().getSenha())
                 .roles(userRole)
                 .build();
+    }
+
+    public UserDetails autenticar(UsuarioDTO dto) {
+        UserDetails usuario = loadUserByUsername(dto.getLogin());
+        boolean isSenhaCorreta = encoder.matches(dto.getSenha(), usuario.getPassword());
+
+        if (isSenhaCorreta){
+                return usuario;
+        }
+        throw new SenhaInvalidException();
     }
 }
