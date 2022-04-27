@@ -47,6 +47,11 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
+        <!--  Starter para persistir no banco de Dados Mysql-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
         <!--  Starter para adicionar Anotations do lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -69,7 +74,6 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-
     </dependencies>
 
     <!-- Em build precisamos dos plugins necessarios para o build do maven-->

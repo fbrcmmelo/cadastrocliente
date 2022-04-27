@@ -17,4 +17,5 @@ public class UsuarioDTO {
 
     @NotEmpty(message = "{campo.senha-usuario}")
     private String senha;
+
 }

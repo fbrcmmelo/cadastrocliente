@@ -31,7 +31,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/auth")
-    public TokenDTO autenticarUsuario (@RequestBody UsuarioDTO dto) {
+    public TokenDTO autenticarUsuario (@RequestBody @Valid UsuarioDTO dto) {
         try {
             UserDetails usuarioLogado = instanceOfUsuarioService.autenticar(dto);
             Usuario usuario = Usuario

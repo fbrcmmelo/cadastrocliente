@@ -17,7 +17,7 @@ import java.util.Set;
 @Table(name = "cliente")
 public class Cliente {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(length = 100)
