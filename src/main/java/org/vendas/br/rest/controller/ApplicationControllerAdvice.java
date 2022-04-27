@@ -1,4 +1,4 @@
-package org.vendas.br.controller;
+package org.vendas.br.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

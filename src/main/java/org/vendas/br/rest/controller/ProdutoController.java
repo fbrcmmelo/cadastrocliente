@@ -1,4 +1,4 @@
-package org.vendas.br.controller;
+package org.vendas.br.rest.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
